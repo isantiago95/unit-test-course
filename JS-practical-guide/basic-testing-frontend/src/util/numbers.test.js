@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transformToNumber } from './numbers';
+import { cleanNumbers, transformToNumber } from './numbers';
 
 describe('transformToNumber()', () => {
     it('should transform a string number to a number type', () => {
@@ -24,8 +24,22 @@ describe('transformToNumber()', () => {
 });
 
 describe('cleanNumbers()', () => {
-    it('should return an array of nnumbers if an array of string number is provided', () => {
+    it('should return an array of numbers if an array of string number is provided', () => {
         const numberValues = ['1', '2'];
 
+        const cleanedNumbers = cleanNumbers(numberValues);
+
+        cleanedNumbers.forEach((number) => {
+            expect(number).toBeTypeOf('number');
+        });
+        expect(cleanedNumbers).toEqual([1, 2]);
+    });
+
+    it('should throw an error if an array with at least one empy string is provided', () => {
+        const numberValues = ['', 1];
+
+        const clearFn = () => cleanNumbers(numberValues);
+
+        expect(clearFn).toThrow();
     });
 });
